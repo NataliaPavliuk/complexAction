@@ -16,6 +16,8 @@ public class CommonConditions {
     @BeforeMethod()
     public void setUp()
     {
+        System.setProperty("browser", "chrome");
+        System.setProperty("environment", "qa");
         webDriver = DriverSingleton.getDriver();
     }
 

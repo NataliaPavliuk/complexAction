@@ -49,15 +49,17 @@ public class MainPage extends AbstractPage {
 
     public MainPage moveToCoordinates() {
         Actions builder = new Actions(webDriver);
+        Coordinates coordinates = new Coordinates("300", "200");
 
         builder
-                .moveByOffset(300, 200)
+                .moveByOffset(coordinates.getIntXCoordinate(), coordinates.getIntYCoordinate())
                 .pause(Duration.ofSeconds(5))
                 .contextClick()
                 .pause(Duration.ofSeconds(5))
                 .release()
                 .perform();
 
+        logger.info("Move to: " + coordinates);
         return this;
     }
 
@@ -69,7 +71,9 @@ public class MainPage extends AbstractPage {
         String yCoordinate =
                 coordinates.substring(coordinates.indexOf(" "), coordinates.lastIndexOf("."));
 
-        return new Coordinates(xCoordinate, yCoordinate);
+        Coordinates expectedCoordinates = new Coordinates(xCoordinate, yCoordinate);
+        logger.debug("Expected:" + expectedCoordinates);
+        return expectedCoordinates;
     }
 
     public Coordinates findActualCoordinates() {
@@ -80,13 +84,15 @@ public class MainPage extends AbstractPage {
         String actualYCoordinate =
                 actualCoordinate.substring(
                         actualCoordinate.indexOf(" "), actualCoordinate.lastIndexOf("."));
-
-        return new Coordinates(actualXCoordinate, actualYCoordinate);
+        Coordinates actualCoordinates = new Coordinates(actualXCoordinate, actualYCoordinate);
+        logger.debug("Actual:" + actualCoordinates);
+        return actualCoordinates;
     }
 
     public MainPage clickOnCoordinate() {
         Actions builder = new Actions(webDriver);
         builder.click(coordinatesElement).pause(Duration.ofSeconds(3)).release().perform();
+        logger.info("click on coordinate element");
         return this;
     }
 
@@ -97,6 +103,7 @@ public class MainPage extends AbstractPage {
     public MainPage clickSearchButtonWithJs() {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) webDriver;
         javascriptExecutor.executeScript("arguments[0].click();", searchField);
+        logger.info("click on search element");
         return this;
     }
 
@@ -109,24 +116,28 @@ public class MainPage extends AbstractPage {
                 .pause(Duration.ofSeconds(3))
                 .release()
                 .perform();
+        logger.info("past coordinates");
         return this;
     }
 
     public MainPage clickAndHold() {
         Actions builder = new Actions(webDriver);
 
+        int xCoordinate = TestDataReader.getTestData("test.data.xOfSet");
+        int yCoordinate = TestDataReader.getTestData("test.data.yOfSet");
         builder.moveToElement(canvas)
                 .clickAndHold()
-                .moveByOffset(TestDataReader.getTestData("test.data.xOfSet"),TestDataReader.getTestData("test.data.yOfSet"))
+                .moveByOffset(xCoordinate,yCoordinate)
                 .release()
                 .perform();
-
+        logger.info("Move by offset:" + xCoordinate+ ", " + yCoordinate);
         return this;
     }
 
     public MainPage reloadWithJs() {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) webDriver;
         javascriptExecutor.executeScript("location.reload()");
+        logger.info("page reload");
         return this;
     }
 }

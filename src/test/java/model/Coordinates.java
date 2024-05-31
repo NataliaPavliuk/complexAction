@@ -12,16 +12,16 @@ public class Coordinates {
         this.yCoordinate = yCoordinate;
     }
 
-    public String getXCoordinate() {
-        return xCoordinate;
+    public int getIntXCoordinate() {
+        return Integer.parseInt(xCoordinate);
     }
 
     public void setXCoordinate(String xCoordinate) {
         this.xCoordinate = xCoordinate;
     }
 
-    public String getYCoordinate() {
-        return yCoordinate;
+    public int getIntYCoordinate() {
+        return Integer.parseInt(yCoordinate);
     }
 
     public void setYCoordinate(String yCoordinate) {
@@ -39,5 +39,10 @@ public class Coordinates {
     @Override
     public int hashCode() {
         return Objects.hash(xCoordinate, yCoordinate);
+    }
+
+    @Override
+    public String toString() {
+        return "xCoordinate='" + xCoordinate + '\'' + ", yCoordinate='" + yCoordinate;
     }
 }
